@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import Dial
 
 main :: IO ()
-main = someFunc
+main = enter

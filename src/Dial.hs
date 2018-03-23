@@ -1,5 +1,6 @@
-module Lib
-    ( someFunc
+module Dial
+    ( enter,
+    removeDash
     ) where
 
 import Data.Char (ord, toLower, isNumber, intToDigit, isPunctuation)
@@ -7,10 +8,16 @@ import System.IO
 import Data.List
 
 
-someFunc = do
+enter = do
     putStrLn "Enter a phone number"
     num <- getLine
     putStrLn $ "You may dial " ++ num
+
+removeDash :: String -> String
+removeDash xs = [ x | x <- xs, not (elem x  "-") ]
+
+insertDash :: String -> String
+insertDash xs = take 1 ls ++ ['-'] ++ take 3 (drop 1 ls) ++ ['-'] ++ take 3 (drop 4 ls) ++ ['-'] ++ take 4 (drop 7 ls) 
 
 getDigit :: Char -> Int
 getDigit letter
@@ -25,7 +32,7 @@ getDigit letter
     | otherwise = 0
 
 convertLetters :: String -> String
-convertLetters xs = map (\x -> if (isNumber x || isPunctuation x) then x else (intToDigit $ getDigit $ toLower x)) xs
+convertLetters xs = map (\x -> if (isNumber x) then x else (intToDigit $ getDigit $ toLower x)) xs
 
--- formatPhoneNumber :: [String] -> String
+-- formatPhoneNumber :: String -> String
 -- formatPhoneNumber components = 
