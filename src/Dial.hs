@@ -1,6 +1,6 @@
 module Dial
     ( enter,
-    removeDash
+    stripDashes
     ) where
 
 import Data.Char (ord, toLower, isNumber, intToDigit, isPunctuation)
@@ -11,13 +11,14 @@ import Data.List
 enter = do
     putStrLn "Enter a phone number"
     num <- getLine
-    putStrLn $ "You may dial " ++ num
+    let converted = insertDashes $ convertLetters $ stripDashes num
+    putStrLn $ "You may dial " ++ converted
 
 stripDashes :: String -> String
 stripDashes xs = [ x | x <- xs, not (elem x  "-") ]
 
 insertDashes :: String -> String
-insertDashes xs = take 1 ls ++ ['-'] ++ take 3 (drop 1 ls) ++ ['-'] ++ take 3 (drop 4 ls) ++ ['-'] ++ take 4 (drop 7 ls) 
+insertDashes xs = take 1 xs ++ ['-'] ++ take 3 (drop 1 xs) ++ ['-'] ++ take 3 (drop 4 xs) ++ ['-'] ++ take 4 (drop 7 xs) 
 
 getDigit :: Char -> Int
 getDigit letter
