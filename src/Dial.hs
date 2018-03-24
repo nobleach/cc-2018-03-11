@@ -13,11 +13,11 @@ enter = do
     num <- getLine
     putStrLn $ "You may dial " ++ num
 
-removeDash :: String -> String
-removeDash xs = [ x | x <- xs, not (elem x  "-") ]
+stripDashes :: String -> String
+stripDashes xs = [ x | x <- xs, not (elem x  "-") ]
 
-insertDash :: String -> String
-insertDash xs = take 1 ls ++ ['-'] ++ take 3 (drop 1 ls) ++ ['-'] ++ take 3 (drop 4 ls) ++ ['-'] ++ take 4 (drop 7 ls) 
+insertDashes :: String -> String
+insertDashes xs = take 1 ls ++ ['-'] ++ take 3 (drop 1 ls) ++ ['-'] ++ take 3 (drop 4 ls) ++ ['-'] ++ take 4 (drop 7 ls) 
 
 getDigit :: Char -> Int
 getDigit letter
@@ -33,6 +33,3 @@ getDigit letter
 
 convertLetters :: String -> String
 convertLetters xs = map (\x -> if (isNumber x) then x else (intToDigit $ getDigit $ toLower x)) xs
-
--- formatPhoneNumber :: String -> String
--- formatPhoneNumber components = 

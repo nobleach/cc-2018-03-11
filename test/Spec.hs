@@ -6,4 +6,4 @@ import Test.Tasty.HUnit
 import Dial
 
 main :: IO ()
-main = putStrLn $ "Test suite: "  ++ Dial.removeDash "1-800-COMCAST"
+main = putStrLn $ "Test suite: "  ++ Dial.stripDashes "1-800-COMCAST"
