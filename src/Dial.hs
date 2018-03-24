@@ -4,7 +4,6 @@ module Dial
     ) where
 
 import Data.Char (ord, toLower, isNumber, intToDigit, isPunctuation)
-import System.IO
 import Data.List
 
 
@@ -15,22 +14,31 @@ enter = do
     putStrLn $ "You may dial " ++ converted
 
 stripDashes :: String -> String
-stripDashes xs = [ x | x <- xs, not (elem x  "-") ]
+stripDashes = filter (/= '-')
+
+splitAtNs :: [Int] -> [a] -> [[a]]
+splitAtNs []     xs = [xs]
+splitAtNs (n:ns) xs = as : splitAtNs ns bs
+    where (as, bs) = splitAt n xs
 
 insertDashes :: String -> String
-insertDashes xs = take 1 xs ++ ['-'] ++ take 3 (drop 1 xs) ++ ['-'] ++ take 3 (drop 4 xs) ++ ['-'] ++ take 4 (drop 7 xs) 
+insertDashes = intercalate "-" . take 4 . splitAtNs [1,3,3,4]
 
 getDigit :: Char -> Int
 getDigit letter
-    | (ord letter >= 97) && (ord letter <= 99) = 2
-    | ord letter <= 102 = 3
-    | ord letter <= 105 = 4
-    | ord letter <= 108 = 5
-    | ord letter <= 111 = 6
-    | ord letter <= 115 = 7
-    | ord letter <= 118 = 8
-    | ord letter <= 122 = 9
+    | letter >= 'a' && letter <= 'c' = 2
+    | letter <= 'f' = 3
+    | letter <= 'i' = 4
+    | letter <= 'l' = 5
+    | letter <= 'o' = 6
+    | letter <= 's' = 7
+    | letter <= 'v' = 8
+    | letter <= 'z' = 9
     | otherwise = 0
 
 convertLetters :: String -> String
-convertLetters xs = map (\x -> if (isNumber x) then x else (intToDigit $ getDigit $ toLower x)) xs
+convertLetters = map toDigit
+  where
+    toDigit x 
+     | isNumber x = x 
+     | otherwise  = intToDigit $ getDigit $ toLower x
